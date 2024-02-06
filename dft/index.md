@@ -680,7 +680,7 @@ $$
 | \chi_{i} \chi_{i+1}\rangle = | \psi_i \overline\psi_i \rangle
 $$
 
-In which $\psi_i$ is a short-hand for $\psi_i |\alpha\rangle$ and $\overline\psi_i$ a short-hand for $\psi_i |\beta\rangle$, both for a $\psi_i$ spatial wave function.
+In which $\psi_i$ is a short-hand for $\psi_i \vert\alpha\rangle$ and $\overline\psi_i$ a short-hand for $\psi_i \vert\beta\rangle$, both for a $\psi_i$ spatial wave function.
 
 This way, the ground wave function can be represented as:
 
