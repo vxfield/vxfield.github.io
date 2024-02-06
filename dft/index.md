@@ -3,25 +3,56 @@ title: Density Functional Theory (DFT) Tutorial
 author: Victor XField
 created_at: 2024-01-27
 updated_at: 2024-02-01
-toc:
-  depth_from: 2
-  depth_to: 6
-  ordered: false
+html:
+  toc: false
 ---
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+<script defer src="./toc.js"></script>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="./toc.css"
+/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" />
+
+<style>
+nav[data-toggle="toc"] {
+  top: 42px;
+}
+
+@media (max-width: 768px) {
+  nav[data-toggle="toc"] {
+    margin-bottom: 42px;
+    position: static;
+  }
+  nav[data-toggle='toc'] .nav .nav {
+    display: block;
+  }
+}
+</style>
+
 # Density Functional Theory Tutorial
 
 Copyright 2024 [Victor XField](https://www.linkedin.com/in/xfield/) - [MIT License](license.md)
 
-> ***Note to Prof. Wilkes:***
-  When I sent you the proposal for Project 1 about writing a  Density Functional Theory calculator in two weeks, I was really underestimating what I would need to cover. That was my first mistake. <br/>
-  My second mistake is how long this page grew to be. I wanted to make sure I had all the pre-requisites to understand the DFT algorithm, and I used this page to record that.
-  Unfortunately, there is so much to cover to make sense out of it, that I was only able to get to the beginning of the *Hartree-Fock method* by the due date. <br/>
-  You can ignore the *Introduction to Quantum Mechanics* section and focus on the *Hartree-Fock method*.
+> **_Note to Prof. Wilkes:_**
+> When I sent you the proposal for Project 1 about writing a Density Functional Theory calculator in two weeks, I was really underestimating what I would need to cover. That was my first mistake. <br/>
+> My second mistake is how long this page grew to be. I wanted to make sure I had all the pre-requisites to understand the DFT algorithm, and I used this page to record that.
+> Unfortunately, there is so much to cover to make sense out of it, that I was only able to get to the beginning of the _Hartree-Fock method_ by the due date. <br/>
+> You can ignore the _Introduction to Quantum Mechanics_ section and focus on the _Hartree-Fock method_.
 
-> ***Note:*** This tutorial was written as I took Prof. Jeffrey Wilkes's course [PHYS 542: Numerical Methods in Physics](https://phys.washington.edu/courses/2024/winter/phys/542/a) at the University of Washington's [MS in Physics](https://www.physicsmasters.uw.edu/) program in 2024.
-
-## Table of Contents {ignore=true}
-[TOC]
+> **_Note:_** This tutorial was written as I took Prof. Jeffrey Wilkes's course [PHYS 542: Numerical Methods in Physics](https://phys.washington.edu/courses/2024/winter/phys/542/a) at the University of Washington's [MS in Physics](https://www.physicsmasters.uw.edu/) program in 2024.
 
 ## 1: Introduction
 
@@ -60,7 +91,7 @@ In the 1900s, Rutherford and colleagues discovered that the atom has positive ch
 
 **Figure 1: Rutherford model**
 
-The electron and proton are have electrical charges, so they will feel the *Coulomb* force, where $\epsilon_0$ is just a constant, $q$ and $Q$ are the electrical charges of the electron and the proton, and $r$ is the distance between the two.
+The electron and proton have electrical charge, so they will feel the _Coulomb_ force, where $\epsilon_0$ is a constant, $q$ and $Q$ are the electrical charges of the electron and the proton, and $r$ is the distance between the two.
 
 $$
 F_{Coulomb} = {1 \over 4 \pi \epsilon_0} {q * Q \over r^2}
@@ -105,7 +136,7 @@ $$
 E_{total} = E_{kinetic} + E_{potential}
 $$
 
-The kinetic energy is from the electron's *momentum* (${mass} \times {velocity}$).
+The kinetic energy is from the electron's _momentum_ (${mass} \times {velocity}$).
 
 $$
 E_{kinetic} = {1 \over 2} m_e v^2
@@ -125,9 +156,9 @@ $$
 
 But experiments shown that the Rutherford model was not quite right.
 
-In the 1910s, it was found that the electron can actually orbit the nucleus at different distances, but not *any* distance.
+In the 1910s, it was found that the electron can actually orbit the nucleus at different distances, but not _any_ distance.
 
-Bohr proposed that only certain radiuses were allowed, and the electron can leap from one orbit to the next by absorbing or emitting a certain *quantum* of energy (a *photon*).
+Bohr proposed that only certain radiuses were allowed, and the electron can leap from one orbit to the next by absorbing or emitting a certain _quantum_ of energy (a _photon_).
 
 ![Bohr atom](https://upload.wikimedia.org/wikipedia/commons/1/17/Bohr_atom_animation_2.gif)
 **Figure 2: Bohr model**
@@ -162,7 +193,7 @@ For example, a block suspended by a spring will have its energy varying between 
 ![Simple Harmonic Oscillator](https://upload.wikimedia.org/wikipedia/commons/e/ea/Simple_Harmonic_Motion_Orbit.gif)
 **Figure 4: Simple Harmonic Oscillator**
 
-This type of system has a periodic behavior and is easier to model it via sine and cosine functions, which are easily observed when you look at *phase space* of the system and circular "orbit" in the position+velocity space.
+This type of system has a periodic behavior and is easier to model it via sine and cosine functions, which are easily observed when you look at _phase space_ of the system and circular "orbit" in the position+velocity space.
 
 A classical wave function has the form of
 
@@ -172,9 +203,9 @@ $$
 
 where, $A$ is the amplitude of the movement, $\omega$ is frequency at which the energy moves from kinetic to potential energy, $t$ is the moment in time, and $\phi$ is the phase, which represents the initial conditions (what was the initial position and momentum of the object).
 
-But in Quantum Mechanics, it was hypothesized (*de Broglie hypothesis*) that every object in the universe has a wave associated to it. But it's not just that the idea that an object can move in a wave-like motion, the idea is that the object itself is a wave. It's hard to makes sense of it because, as far as we know, we can only see objects as definitive, concrete particles and the wave aspect of the objects can only be used to calculate probabilities related to their observable properties.
+But in Quantum Mechanics, it was hypothesized (_de Broglie hypothesis_) that every object in the universe has a wave associated to it. But it's not just that the idea that an object can move in a wave-like motion, the idea is that the object itself is a wave. It's hard to makes sense of it because, as far as we know, we can only see objects as definitive, concrete particles and the wave aspect of the objects can only be used to calculate probabilities related to their observable properties.
 
-The *de Broglie hypothesis* was confirmed thru a variety of experiments, most famously the *double-slit experiment* in which a single electron was released at a time, and it would go thru two slits (yes, at the same time, it would go thru both!), and then it would hit the detector screen at a random position. But when this experiment is repeated many times, it became clear that the positions were not uniformly random, but instead they respected a *probability density* that matched what a wave would do if going thru the slits.
+The _de Broglie hypothesis_ was confirmed thru a variety of experiments, most famously the _double-slit experiment_ in which a single electron was released at a time, and it would go thru two slits (yes, at the same time, it would go thru both!), and then it would hit the detector screen at a random position. But when this experiment is repeated many times, it became clear that the positions were not uniformly random, but instead they respected a _probability density_ that matched what a wave would do if going thru the slits.
 
 <img alt="Double-slit Experiment" src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Double-slit.svg" width="600px" />
 
@@ -182,7 +213,7 @@ The *de Broglie hypothesis* was confirmed thru a variety of experiments, most fa
 
 **Figure 5: Double-slit Experiment**
 
-It was also postulated, and proven thru experiments, that that the *probability* $P[x]$ of finding a particle in position $x$ is given by the square of the wave function $\Psi(x)$. This is known as the *Born rule*.
+It was also postulated, and proven thru experiments, that that the _probability_ $P[x]$ of finding a particle in position $x$ is given by the square of the wave function $\Psi(x)$. This is known as the _Born rule_.
 
 $$
 P[x] = |\Psi(x)|^2
@@ -210,7 +241,7 @@ $$
 P[-\infty \leq x \leq \infty] = 1 = \int_{-\infty}^{\infty}{|\Psi(x)|^2 \, dx}
 $$
 
-The *de Broglie hypothesis* combined with the *Born rule*, and the fact that the wave function is time-periodic, implies that the *general* solution for the *time-dependent* *Schrodinger Equation* is comprised of complex numbers (several explanations can be found in Karam 2020) and has the form
+The _de Broglie hypothesis_ combined with the _Born rule_, and the fact that the wave function is time-periodic, implies that the _general_ solution for the _time-dependent_ _Schrodinger Equation_ is comprised of complex numbers (several explanations can be found in Karam 2020) and has the form
 
 $$
 \Psi(x, t) = \sum_n{A_n \, e^{-i \, E_n \, t \over \hbar} \, \psi_{E_n}(x)}
@@ -219,7 +250,7 @@ $$
 where $x$ is the particle's position, $t$ is the moment in time, $A_n$ are complex numbers indicating the amplitude for a given quantized energy level $n$, $i$ is the imaginary number $i=\sqrt{-1}$, $E_n$ is the energy at energy level $n$, $\hbar$ is a constant and $\psi_{E_n}(x)$ is the time-independent wave function for energy level $n$.
 
 Also, from these results it follows that it's not possible to know both position and momentum of the particle at the same time with arbitrary accuracy (proved by gamma ray experiments).
-This is know as the *Heisenberg's Uncertainty Principle*
+This is know as the _Heisenberg's Uncertainty Principle_
 
 $$
 \sigma_x \sigma_p \geq {\hbar \over 2}
@@ -231,13 +262,13 @@ A particle, such an electron, bound by a potential (such as the Coulomb potentia
 
 ![Quantum Harmonic Oscillator](https://upload.wikimedia.org/wikipedia/commons/9/90/QuantumHarmonicOscillatorAnimation.gif)
 **Figure 6: Double-slit Experiment**
-In *A* and *B* we have a classical object attached to a spring. In *C-H* we have different solutions for the *Quantum Harmonic Oscillator* (blue line is the real part, red line the imaginary part). *C-F* correspond to different energy levels, and *G* and *H* are linear combinations of multiple energy levels.
+In _A_ and _B_ we have a classical object attached to a spring. In _C-H_ we have different solutions for the _Quantum Harmonic Oscillator_ (blue line is the real part, red line the imaginary part). _C-F_ correspond to different energy levels, and _G_ and _H_ are linear combinations of multiple energy levels.
 
 ### 2.3: Schrodinger Equation
 
 We digressed a bit on the idea of wave function, but it was a concept important to grasp.
 
-Now, let's get back to the *Schrodinger Equation* we started with.
+Now, let's get back to the _Schrodinger Equation_ we started with.
 
 To recap, there is a function $\Psi$ that when applied the energy operator $\^H$ to it would result in the same function $\Psi$ times the energy $E$ of the system.
 
@@ -247,7 +278,7 @@ $$
 
 $\Psi$ is a complex-number wave function. It describes how the system evolves with time, one can use it to calculate the probabilities of measuring the values of observable properties of the system.
 
-$\^H$ is the energy operator, known as the *Hamiltonian*, and it's comprised of a kinetic and a potential energy operator.
+$\^H$ is the energy operator, known as the _Hamiltonian_, and it's comprised of a kinetic and a potential energy operator.
 
 $$
 \^H = \^T + \^V
@@ -275,11 +306,12 @@ So, if we want to find the likelihood of finding the position of the electron in
 
 ### 2.4: Solutions to the Schrodinger Equation
 
-> ***TODO:***  Write an overview about the analytical solution for the S.E., expectation values, energy, and the infeasibility of resolving many-body systems analytically.
+> **_TODO:_** Write an overview about the analytical solution for the S.E., expectation values, energy, and the infeasibility of resolving many-body systems analytically.
 
 ### 2.5: Spin and Electron Orbitals
 
-> ***TODO:***  Write an introduction to electron spin and orbitals.
+> **_TODO:_** Write an introduction to electron spin and orbitals.
+
     - orbital = 1-electron wavefunction
     - occupied and virtual (unoccupied) orbital
     - spatial orbital $\phi(\vec{r_1})$ for position $\vec{r}=(x,y,z)$
@@ -327,7 +359,7 @@ $$
     -\sum_{A=1}^M{\hbar^2 \over 2 m_A} \nabla^2_A
 $$
 
-where $m_e$ is the mass of the electron, $m_A$ the mass of the nuclei, and $\nabla^2_i$ is the *Laplacian* operator
+where $m_e$ is the mass of the electron, $m_A$ the mass of the nuclei, and $\nabla^2_i$ is the _Laplacian_ operator
 
 $$
 \nabla^2_i =
@@ -336,8 +368,8 @@ $$
     + {\partial^2 \over \partial z_i^2}
 $$
 
-$\^V$ represents the *Coulomb* potential energy of the system.
-We have nuclei that repel each other ($\^V_{NN}$), nuclei and electrons that attract each other  ($\^V_{Ne}$) and finally electrons that repel each other  ($\^V_{ee}$).
+$\^V$ represents the _Coulomb_ potential energy of the system.
+We have nuclei that repel each other ($\^V_{NN}$), nuclei and electrons that attract each other ($\^V_{Ne}$) and finally electrons that repel each other ($\^V_{ee}$).
 
 $$
 \^V = \^V_{NN} + \^V_{Ne} + \^V_{ee}
@@ -387,19 +419,19 @@ Note: We are ignoring electron-spin for now, and we will it add it later.
 
 ### 3.2: Atomic Units
 
-To make the math easier to read and compute, we are going to change the unit system from the *SI units* to the *Atomic units*.
+To make the math easier to read and compute, we are going to change the unit system from the _SI units_ to the _Atomic units_.
 
 This is also convenient because we are dealing with such small scales that measuring mass in kilograms is way out of proportion.
 
-| Quantity         | Atomic unit value     | Atomic unit value                                        |
-| ---------------- | --------------------- | -------------------------------------------------------- |
-| Mass             | $m_e = 1$             | $9.109 \times 10^{-31}\text{ kg}$                        |
-| Length           | $a_0 = 1$             | $5.292 \times 10^{-11}\text{ m}$                         |
-| Charge           | $e = 1$               | $1.602 \times 10^{-19}\text{ C}$                         |
-| Angular momentum | $\hbar = 1$           | $1.055 \times 10^{-34}\text{ J.s}$                       |
-| Permittivity     | $4\pi\epsilon_0 = 1$  | $1.113 \times 10^{-10} \, {\text{C}^2 \over \text{J.m}}$ |
+| Quantity         | Atomic unit value    | Atomic unit value                                        |
+| ---------------- | -------------------- | -------------------------------------------------------- |
+| Mass             | $m_e = 1$            | $9.109 \times 10^{-31}\text{ kg}$                        |
+| Length           | $a_0 = 1$            | $5.292 \times 10^{-11}\text{ m}$                         |
+| Charge           | $e = 1$              | $1.602 \times 10^{-19}\text{ C}$                         |
+| Angular momentum | $\hbar = 1$          | $1.055 \times 10^{-34}\text{ J.s}$                       |
+| Permittivity     | $4\pi\epsilon_0 = 1$ | $1.113 \times 10^{-10} \, {\text{C}^2 \over \text{J.m}}$ |
 
-With these *Atomic units* and the following conventions
+With these _Atomic units_ and the following conventions
 
 $$
 \sum_{i} \equiv \sum_{i=1}^N \;,\;
@@ -420,12 +452,12 @@ $$
 
 ### 3.3: Born-Oppenheimer Approximation
 
-As we saw before, analytically solving the *Schrodinger Equation* for more than two particles is pretty much unfeasible, as the problem scales exponentially with the number of particles.
+As we saw before, analytically solving the _Schrodinger Equation_ for more than two particles is pretty much unfeasible, as the problem scales exponentially with the number of particles.
 
 So we need to solve the problem using a numerical method, and we also need to make some approximations otherwise even a numerical method may become too complex to be computed in a reasonable time.
 
 The first approximation we already applied was considering all the particles in the nucleus as a single point charge.
-The rationale for that is that the electrons are relatively far from the nucleus to perceived it as single point charge (*Gauss Law*).
+The rationale for that is that the electrons are relatively far from the nucleus to perceived it as single point charge (_Gauss Law_).
 
 The second approximation we will do, is called the Born-Oppenheimer approximation, in which we consider that the nucleus is not moving relative to all the electrons that are zipping around it,
 The rationale for that us that the mass of the nucleus is 4 orders of magnitude larger than of the electron's.
@@ -444,7 +476,7 @@ $$
 
 Since the nuclear repulsion is a constant, it only impacts the total energy of the system, but it does not affect the wave function itself.
 
-So we can focus on solving the *electronic* wave function with its correspinding *electronic* Hamiltonian
+So we can focus on solving the _electronic_ wave function with its correspinding _electronic_ Hamiltonian
 
 $$
 \^H_{elec} |\psi_{elec}\rangle = E_{elec} |\psi_{elec}\rangle
@@ -498,7 +530,7 @@ $$
 
 And the general electronic wave function $\Psi_{elec}$ is the product of each independent and uncorrelated electron wave function $\chi_i(\vec{x}_i)$.
 
-This known as the *Hartree Product* of the spin-orbitals in the system.
+This known as the _Hartree Product_ of the spin-orbitals in the system.
 
 $$
 \Psi_{elec}(\{\vec{x}_i\}) = \prod_{i=1}^N \chi_i(\vec{x}_i)
@@ -506,16 +538,16 @@ $$
 
 ### 3.5: Anti-Symmetry and Slater Determinants
 
-One problem with the *Hartree Product* is that it does not respect the *Anti-Symmetry Principle*.
+One problem with the _Hartree Product_ is that it does not respect the _Anti-Symmetry Principle_.
 
 In nature, as observed by multiple experiments, it's impossible to distinguish between two electrons. They all look the same.
 
-The way we modelled the product of the spin-orbitals in the *Hartree Product*, we tied the wave function $\chi_1$ of electron $1$ with the position $\vec{x}_1$, and so on for all $\chi_i(\vec{x}_i)$.
+The way we modelled the product of the spin-orbitals in the _Hartree Product_, we tied the wave function $\chi_1$ of electron $1$ with the position $\vec{x}_1$, and so on for all $\chi_i(\vec{x}_i)$.
 
 This is a problem because it assumes that we know that electron $1$ is at position $\vec{x}_1$, $2$ is at $\vec{x}_2$, etc.
-But in reality we can't distinguish them, and it means that electron $1$ could be at position $\vec{x}_2$, or at any other  $\vec{x}_i$.
+But in reality we can't distinguish them, and it means that electron $1$ could be at position $\vec{x}_2$, or at any other $\vec{x}_i$.
 
-The way to correctly model this *anti-symmetry principle* is to change the sign of the total electronic wave function every time we exchange electrons in our model.
+The way to correctly model this _anti-symmetry principle_ is to change the sign of the total electronic wave function every time we exchange electrons in our model.
 
 For example, if we start with this wave function and exchange electrons $1$ and $2$
 
@@ -529,7 +561,7 @@ $$
 \Psi_{elec}(\vec{x}_2, \vec{x}_1) = - \chi_1(\vec{x}_2) \chi_2(\vec{x}_1)
 $$
 
-So our total electronic wave function needs to have a linear combination of every *Hartree Product* permutation with the correct signs applied to them.
+So our total electronic wave function needs to have a linear combination of every _Hartree Product_ permutation with the correct signs applied to them.
 
 In our two-electron example, it would look like this (electron 1 could be at either position $\vec{x}_1$ or $\vec{x}_2$)
 
@@ -542,11 +574,11 @@ $$
     \right]
 $$
 
-A feature of this linear combination is that it enforces the *Pauli Exclusion Principle*, which states that two fermions cannot simultaneously have the same occupy the same quantum state (in our case, two electrons cannot occupy the same orbital at the same time).
+A feature of this linear combination is that it enforces the _Pauli Exclusion Principle_, which states that two fermions cannot simultaneously have the same occupy the same quantum state (in our case, two electrons cannot occupy the same orbital at the same time).
 If both $\chi_1$ and $\chi_2$ are the same function, meaning that they are the same spin-orbital, the two terms will cancel and the total electronic wave function will be zero (i.e. zero probability of that happening). The same will happen if the two electrons are in the same position.
 
-To represent each possible permutation of *Hartree Product* we need $N!$ terms with the correct signs, which quickly gets insanely large to write it down.
-Instead we can use *Slater Determinant* to represent all these permutations in a compact form.
+To represent each possible permutation of _Hartree Product_ we need $N!$ terms with the correct signs, which quickly gets insanely large to write it down.
+Instead we can use _Slater Determinant_ to represent all these permutations in a compact form.
 
 $$
 \Psi_{elec}(\vec{x}_1, \vec{x}_2) =
@@ -574,7 +606,7 @@ $$
     \right|
 $$
 
-The *Slater Determinant* also enforces the *Pauli Exclusion Principle*, similar to what we saw before with the linear combination.
+The _Slater Determinant_ also enforces the _Pauli Exclusion Principle_, similar to what we saw before with the linear combination.
 
 $$
 \langle \Psi_A | \Psi_B \rangle =
@@ -588,9 +620,9 @@ $$
 
 ### 3.6: Excited States and Excited Determinants
 
-Now that we have the *Slater Determinant* that account for the linear combination of all permutations of single-electron wave functions we are ready to start solving the electronic Schrodinger Equation, right? Well, no so fast...
+Now that we have the _Slater Determinant_ that account for the linear combination of all permutations of single-electron wave functions we are ready to start solving the electronic Schrodinger Equation, right? Well, no so fast...
 
-We applied the *Slater Determinant* with the goal of not knowing which electron is which and at which location it is. A unidentifiable electron can be in any orbit.
+We applied the _Slater Determinant_ with the goal of not knowing which electron is which and at which location it is. A unidentifiable electron can be in any orbit.
 
 But how many orbits did we consider? If you check our total wave function we have $N$ orbitals.
 
@@ -642,26 +674,26 @@ In the ground state, we know that all $N$ electrons are in the bottom $N$ orbita
 
 As we allow excited states, the number of orbital wave functions grows exponentially at $N^{2M}$ for $N$ electrons and $M$ excitations (the factor of $2$ is because of to spin orbitals for each energy level).
 
-The *Hartree-Fock method* focus on solving only the ground state determinant, and then other methods can be used to solve the excited determinants known as *Configuration Interactions*. They come as combinations of *Singles*, *Doubles*, *Triples*, etc., abbreviated as *CIS*, *CISD*, *CISDT*, etc. up to a *Full CI*.
+The _Hartree-Fock method_ focus on solving only the ground state determinant, and then other methods can be used to solve the excited determinants known as _Configuration Interactions_. They come as combinations of _Singles_, _Doubles_, _Triples_, etc., abbreviated as _CIS_, _CISD_, _CISDT_, etc. up to a _Full CI_.
 
-| Method | Acronym | States |
-| - | - | - |
-| Hartree-Fock | HF | $ \|\Psi_0\rangle$ |
-| Configuration Interaction Doubles | CID | $ \|\Psi_0\rangle, \|\Psi_{a\,b}^{r\,s}\rangle $ |
-| Configuration Interaction Singles and Doubles | CISD | $ \|\Psi_0\rangle, \|\Psi_{a}^{r}\rangle, \|\Psi_{a\,b}^{r\,s}\rangle $ |
-| Configuration Interaction Singles, Doubles and Triples | CISDT | $ \|\Psi_0\rangle, \|\Psi_{a}^{r}\rangle, \|\Psi_{a\,b}^{r\,s}\rangle, \|\Psi_{a\,b\,c}^{r\,s\,t}\rangle $ |
-| ... | CISDTQ | ... |
-| ... | CISDTQ6 | ... |
-| ... | CISDTQ7 | ... |
-| $\vdots$ | $\vdots$ | $\vdots$ |
-| Full Configuration Interaction | Full CI | ... |
+| Method                                                 | Acronym  | States                                                                                                     |
+| ------------------------------------------------------ | -------- | ---------------------------------------------------------------------------------------------------------- |
+| Hartree-Fock                                           | HF       | $ \|\Psi_0\rangle$                                                                                         |
+| Configuration Interaction Doubles                      | CID      | $ \|\Psi*0\rangle, \|\Psi*{a\,b}^{r\,s}\rangle $                                                           |
+| Configuration Interaction Singles and Doubles          | CISD     | $ \|\Psi*0\rangle, \|\Psi*{a}^{r}\rangle, \|\Psi\_{a\,b}^{r\,s}\rangle $                                   |
+| Configuration Interaction Singles, Doubles and Triples | CISDT    | $ \|\Psi*0\rangle, \|\Psi*{a}^{r}\rangle, \|\Psi*{a\,b}^{r\,s}\rangle, \|\Psi*{a\,b\,c}^{r\,s\,t}\rangle $ |
+| ...                                                    | CISDTQ   | ...                                                                                                        |
+| ...                                                    | CISDTQ6  | ...                                                                                                        |
+| ...                                                    | CISDTQ7  | ...                                                                                                        |
+| $\vdots$                                               | $\vdots$ | $\vdots$                                                                                                   |
+| Full Configuration Interaction                         | Full CI  | ...                                                                                                        |
 
 ### 3.7: Restricted Determinants
 
 So far we have been treating each spin-orbital as a separate wave function $\chi_i$, but in the most common cases every pair of $\chi_i$ shares the same spatial orbital, since two electrons can share the same spatial orbitals by having opposite $\alpha$ and $\beta$ spins.
 
-We can then use what's called a *restricted determinant* for those pairs of electrons.
-The *restricted determinants* are most used when solving systems with even-numbered electrons and/or *closed shells*, such as organic molecules.
+We can then use what's called a _restricted determinant_ for those pairs of electrons.
+The _restricted determinants_ are most used when solving systems with even-numbered electrons and/or _closed shells_, such as organic molecules.
 
 In that case, it's convenient to use the following notation:
 
@@ -683,16 +715,16 @@ $$
     \rangle
 $$
 
-We could also have *unrestricted determinants* in which a $\alpha, \beta$ pair of electrons can have different spatial orbitals.
-This useful for *open shell* systems such as metals and catalysts, but more complex than the *restricted determinants*.
+We could also have _unrestricted determinants_ in which a $\alpha, \beta$ pair of electrons can have different spatial orbitals.
+This useful for _open shell_ systems such as metals and catalysts, but more complex than the _restricted determinants_.
 
-There are 3 *variants* of the *Hartree-Fock method*:
+There are 3 _variants_ of the _Hartree-Fock method_:
 
-| Variant Acronym | Variant | Applications |
-| - | - | - |
-| RHF | Restricted Hartree-Fock | Closed-shell or even-numbered systems |
-| UHF | Unrestricted Hartree-Fock | Open-shell or odd-numbered systems |
-| ROHF | Restricted Open-shell Hartree-Fock | Orbital analysis |
+| Variant Acronym | Variant                            | Applications                          |
+| --------------- | ---------------------------------- | ------------------------------------- |
+| RHF             | Restricted Hartree-Fock            | Closed-shell or even-numbered systems |
+| UHF             | Unrestricted Hartree-Fock          | Open-shell or odd-numbered systems    |
+| ROHF            | Restricted Open-shell Hartree-Fock | Orbital analysis                      |
 
 ### 3.8: One-Electron Integrals
 
@@ -730,7 +762,7 @@ $$
 E = \int dx \; \Psi_0^*(x) \, \^H \, \Psi_0(x)
 $$
 
-Or in *Dirac notation*
+Or in _Dirac notation_
 
 $$
 E = \langle \Psi_0 | \^H | \Psi_0 \rangle
@@ -754,7 +786,7 @@ E = E_1 + E_2
 $$
 
 The one-electron operator $\^O_{1}$ is just a sum of the one-electron Hamiltonian $\^h_i$ that we saw before when we assumed there was no electron-electron interaction.
-$\^h_i$ is known as the *Core Hamiltonian*, and it is the easier to compute.
+$\^h_i$ is known as the _Core Hamiltonian_, and it is the easier to compute.
 
 $$
 \^O_1^{(i)} = \^h_i =
@@ -762,7 +794,7 @@ $$
     - \sum_{iA}{Z_A \over r_{A,i}}
 $$
 
-The single one-electron energy, known as the *core energy*  is
+The single one-electron energy, known as the _core energy_ is
 
 $$
 h_i = \langle \chi_i | \^h_i | \chi_i \rangle
@@ -785,7 +817,7 @@ This allow us to calculate the individual energy contribution of each electron s
 
 ### 3.9: Two-electron Integrals
 
-Now it comes the hard part! Solving the *many-body* *Schrodinger Equation* for when we have electron-electron interactions (in our $\^O_2$ operator).
+Now it comes the hard part! Solving the _many-body_ _Schrodinger Equation_ for when we have electron-electron interactions (in our $\^O_2$ operator).
 
 $$
 \^H_{elec} =
@@ -836,7 +868,7 @@ v(i,j) =&
 \end{align*}
 $$
 
-Or in *Dirac notation* as
+Or in _Dirac notation_ as
 
 $$
 \begin{align*}
@@ -884,9 +916,6 @@ E_2 =
     v(i,j)
 $$
 
-
-
-
 ## References
 
 - Griffiths, D. J. (2023). Introduction to Electrodynamics. [&#128279;](https://www.cambridge.org/highereducation/books/introduction-to-electrodynamics/FD23E188E2BDCDB40199CFE3386EC08F)
@@ -901,13 +930,6 @@ $$
 
 All images are MIT or Public Domain licensed from [Wikimedia Commons](https://commons.wikimedia.org/)
 
-
-
-<!--
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
--->
-
 <!-- markdownlint-configure-file
 {
     "no-multiple-blanks": false,
@@ -921,3 +943,213 @@ All images are MIT or Public Domain licensed from [Wikimedia Commons](https://co
     }
 }
 -->
+
+<script>
+function buildToc() {
+    result = "";
+    level = 0;
+    headings = Array.from($("h1,h2,h3"));
+    headings.forEach((heading) => {
+        headingLevel = parseInt(heading.tagName.substring(1));
+        while (headingLevel < level) {
+            result += `${"  ".repeat(level-1)}</ul>\n`;
+            level--;
+        }
+        while (headingLevel > level) {
+            result += `${"  ".repeat(level)}<ul>\n`;
+            level++;
+        }
+        const id = heading.innerText.toLowerCase().replaceAll(" ", "-").replaceAll(":", "");
+        heading.setAttribute("id", id);
+        result += `${"  ".repeat(level+1)}<li>\n`;
+        result += `${"  ".repeat(level+2)}<a href="#${id}">${heading.textContent}</a>\n`;
+        result += `${"  ".repeat(level+1)}</li>\n`;
+    });
+    while (level > 0) {
+        result += `${"  ".repeat(level-1)}</ul>\n`;
+        level--;
+    }
+    return result;
+}
+
+
+function initToc() {
+  if ($("#toc").length > 0) return;
+  body = $("body");
+  bodyContents = body.contents();
+  bodyContents.remove();
+  $("body").append(`
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                  <nav id="toc" class="toc">
+                    <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke="#444" stroke-width="3" fill="transparent" stroke-dasharray="0, 0, 0, 1000" stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)" />
+                    </svg>
+                  </nav>
+                </div>
+                <div id="content" class="col-sm-9"/>
+            </div>
+        </div>
+    `);
+  $("#content").append(bodyContents);
+  // $("body").scrollspy({
+  //     target: navSelector,
+  // });
+
+  $("#toc").append(buildToc());
+
+  var toc = document.querySelector(".toc");
+  var tocPath = document.querySelector(".toc-marker path");
+  var tocItems;
+  // Factor of screen size that the element must cross
+  // before it's considered visible
+  var TOP_MARGIN = 0,
+    BOTTOM_MARGIN = 0;
+  var pathLength;
+  window.addEventListener("resize", drawPath, false);
+  window.addEventListener("scroll", sync, false);
+  drawPath();
+  function drawPath() {
+    tocItems = [].slice.call(toc.querySelectorAll("li"));
+    // Cache element references and measurements
+    tocItems = tocItems.map(function (item) {
+      var anchor = item.querySelector("a");
+      var target = document.getElementById(
+        anchor.getAttribute("href").slice(1)
+      );
+      return {
+        listItem: item,
+        anchor: anchor,
+        target: target,
+      };
+    });
+    // Remove missing targets
+    tocItems = tocItems.filter(function (item) {
+      return !!item.target;
+    });
+    var path = [];
+    var pathIndent;
+    tocItems.forEach(function (item, i) {
+      var x = item.anchor.offsetLeft - 5,
+        y = item.anchor.offsetTop,
+        height = item.anchor.offsetHeight;
+      if (i === 0) {
+        path.push("M", x, y, "L", x, y + height);
+        item.pathStart = tocPath.getTotalLength() || 0;
+      } else {
+        // Draw an additional line when there's a change in
+        // indent levels
+        if (pathIndent !== x) path.push("L", pathIndent, y);
+        path.push("L", x, y);
+
+        // Set the current path so that we can measure it
+        tocPath.setAttribute("d", path.join(" "));
+        item.pathStart = tocPath.getTotalLength() || 0;
+
+        path.push("L", x, y + height);
+      }
+
+      pathIndent = x;
+
+      tocPath.setAttribute("d", path.join(" "));
+      item.pathEnd = tocPath.getTotalLength();
+    });
+    pathLength = tocPath.getTotalLength();
+    sync();
+  }
+  function sync() {
+    var windowHeight = window.innerHeight;
+    var pathStart = Number.MAX_VALUE;
+    var pathEnd = 0;
+    var visibleItems = 0;
+    var lastVisibleItem = null;
+    tocItems.forEach(function (item) {
+      var targetBounds = item.target.getBoundingClientRect();
+      if (lastVisibleItem === null) {
+        lastVisibleItem = item;
+      }
+      if (
+        targetBounds.top < 0 &&
+        targetBounds.top > lastVisibleItem.target.getBoundingClientRect().top
+        ) {
+        lastVisibleItem = item;
+      }
+      if (
+        (targetBounds.bottom > windowHeight * TOP_MARGIN &&
+        targetBounds.top < windowHeight * (1 - BOTTOM_MARGIN))
+      ) {
+        pathStart = Math.min(item.pathStart, pathStart);
+        pathEnd = Math.max(item.pathEnd, pathEnd);
+        visibleItems += 1;
+        item.listItem.classList.add("visible");
+      } else {
+        item.listItem.classList.remove("visible");
+      }
+    });
+
+    item = lastVisibleItem;
+    pathStart = Math.min(item.pathStart, pathStart);
+    pathEnd = Math.max(item.pathEnd, pathEnd);
+    visibleItems += 1;
+    item.listItem.classList.add("visible");
+
+    // Specify the visible path or hide the path altogether
+    // if there are no visible items
+    if (visibleItems > 0 && pathStart < pathEnd) {
+      tocPath.setAttribute("stroke-dashoffset", "1");
+      tocPath.setAttribute(
+        "stroke-dasharray",
+        "1, " + pathStart + ", " + (pathEnd - pathStart) + ", " + pathLength
+      );
+      tocPath.setAttribute("opacity", 1);
+    } else {
+      tocPath.setAttribute("opacity", 0);
+    }
+  }
+}
+
+$(function() {
+    initToc();
+});
+</script>
+
+<style>
+.toc {
+    position: fixed;
+    left: 1em;
+    top: 1em;
+    padding: 1em;
+    line-height: 2;
+  }
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .toc ul ul { padding-left: 2em; }
+  .toc li a {
+    display: inline-block;
+    color: #aaa;
+    text-decoration: none;
+    -webkit-transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .toc li.visible > a {
+    color: #111;
+    -webkit-transform: translate(5px);
+    transform: translate(5px);
+  }
+  .toc-marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  .toc-marker path {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  </style>
