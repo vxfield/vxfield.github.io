@@ -1094,12 +1094,14 @@ $(function() {
 </script>
 
 <style>
+    
 .toc {
     position: fixed;
     left: 1em;
     top: 1em;
     padding: 1em;
     line-height: 2;
+    width: 25%;
   }
   .toc ul {
     list-style: none;
