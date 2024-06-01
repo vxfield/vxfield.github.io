@@ -382,13 +382,17 @@ The Hamiltonian is then
 $$
 \^H =
     \underbrace{- \sum_{i=1}^N{\hbar^2 \over 2 m_e} \nabla^2_i}_{\^T_e}
+    \quad
     \underbrace{- \sum_{A=1}^M{\hbar^2 \over 2 m_A} \nabla^2_A}_{\^T_N}
+    \quad
     \underbrace{+ \sum_{A=1}^M \sum_{B=A+1}^M
     {1 \over 4 \pi \epsilon_0}
     {Z_A Z_B e^2 \over r_{A,B}}}_{\^V_{NN}}
+    \quad
     \underbrace{- \sum_{A=1}^M \sum_{i=1}^N
     {1 \over 4 \pi \epsilon_0}
     {Z_A e^2 \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
     \underbrace{+ \sum_{i=1}^N \sum_{j=i+1}^N
     {1 \over 4 \pi \epsilon_0}
     {e^2 \over r_{i,j}}}_{\^V_{ee}}
@@ -423,9 +427,13 @@ our Hamiltonian gets a bit cleaner
 $$
 \^H =
     \underbrace{- \sum_{i}{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
     \underbrace{- \sum_{A}{1 \over 2 M_A} \nabla^2_A}_{\^T_N}
+    \quad
     \underbrace{+ \sum_{A<B}{Z_A Z_B \over r_{A,B}}}_{\^V_{NN}}
+    \quad
     \underbrace{- \sum_{iA}{Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
     \underbrace{+ \sum_{i<j}{1 \over r_{i,j}}}_{\^V_{ee}}
 $$
 
@@ -447,9 +455,13 @@ That further simplifies our Hamiltonian
 $$
 \^H =
     \underbrace{- \sum_{i}{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
     \underbrace{- \sum_{A}{1 \over 2 M_A} \nabla^2_A}_{\^T_N=0}
+    \quad
     \underbrace{+ \sum_{A<B}{Z_A Z_B \over r_{A,B}}}_{\^V_{NN}=\text{constant}}
+    \quad
     \underbrace{- \sum_{iA}{Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
     \underbrace{+ \sum_{i<j}{1 \over r_{i,j}}}_{\^V_{ee}}
 $$
 
@@ -464,7 +476,9 @@ $$
 $$
 \^H_{elec} =
     \underbrace{- \sum_{i}{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
     \underbrace{- \sum_{iA}{Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
     \underbrace{+ \sum_{i<j}{1 \over r_{i,j}}}_{\^V_{ee}}
 $$
 
@@ -482,7 +496,9 @@ If we pretend that's the case, then our Hamiltonian gets much simpler because th
 $$
 \^H_{elec} =
     \underbrace{- \sum_{i}{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
     \underbrace{- \sum_{iA}{Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
     \underbrace{+ \sum_{i<j}{1 \over r_{i,j}}}_{\^V_{ee}=0}
 $$
 
@@ -531,13 +547,13 @@ The way to correctly model this _anti-symmetry principle_ is to change the sign 
 For example, if we start with this wave function and exchange electrons $1$ and $2$
 
 $$
-\Psi_{elec}(\vec{x}_1, \vec{x}_2) = \chi_1(\vec{x}_1) \chi_2(\vec{x}_2)
+\Psi_{elec}({\color{blue} \vec{x}_1}, {\color{red} \vec{x}_2}) = {\color{blue} \chi_1}({\color{blue} \vec{x}_1}) {\color{red} \chi_2}({\color{red} \vec{x}_2})
 $$
 
 We need to add a negative sign to the wave function
 
 $$
-\Psi_{elec}(\vec{x}_2, \vec{x}_1) = - \chi_1(\vec{x}_2) \chi_2(\vec{x}_1)
+\Psi_{elec}({\color{blue} \vec{x}_1}, {\color{red} \vec{x}_2}) = - {\color{blue} \chi_1}({\color{red} \vec{x}_2}) {\color{red} \chi_2}({\color{blue} \vec{x}_1})
 $$
 
 So our total electronic wave function needs to have a linear combination of every _Hartree Product_ permutation with the correct signs applied to them.
@@ -548,8 +564,8 @@ $$
 \Psi_{elec}(\vec{x}_1, \vec{x}_2) =
     {1 \over \sqrt{2}}
     \left[
-    \chi_1(\vec{x}_1) \chi_2(\vec{x}_2)
-    - \chi_2(\vec{x}_1) \chi_1(\vec{x}_2)
+    {\color{blue} \chi_1}({\color{blue} \vec{x}_1}) {\color{red} \chi_2}({\color{red} \vec{x}_2})
+    - {\color{blue} \chi_1}({\color{red} \vec{x}_2}) {\color{red} \chi_2}({\color{blue} \vec{x}_1})
     \right]
 $$
 
@@ -712,7 +728,9 @@ Now back to our total electronic Hamiltonian we had
 $$
 \^H_{elec} =
     \underbrace{- \sum_{i}{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
     \underbrace{- \sum_{iA}{Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
     \underbrace{+ \sum_{i<j}{1 \over r_{i,j}}}_{\^V_{ee}}
 $$
 
@@ -726,13 +744,14 @@ $$
         - \sum_{i}{1 \over 2} \nabla^2_i
         - \sum_{iA}{Z_A \over r_{A,i}}
     }_{\^O_{1}}
+    \quad
     \underbrace{
         + \sum_{i<j}{1 \over r_{i,j}}
     }_{\^O_{2}}
 $$
 
 $$
-\^H_{elec} = \sum_{i} \^O_1^{(i)} + \sum_{i<j} \^O_2^{(ij)}
+\^H_{elec} = \sum_{i} \^O_1^{(i)} + \^O_2^{(ij)}
 $$
 
 The expected ground energy of the system is computed by integration of the Hamiltonian sandwiched between the complex conjugate of the wave function and the regular wave function (remember that $x$ contains the three spatial coordinates and one spin coordinates).
@@ -804,6 +823,7 @@ $$
         - \sum_{i}{1 \over 2} \nabla^2_i
         - \sum_{iA}{Z_A \over r_{A,i}}
     }_{\^O_{1}}
+    \quad
     \underbrace{
         + \sum_{i<j}{1 \over r_{i,j}}
     }_{\^O_{2}}
@@ -812,7 +832,8 @@ $$
 The $\^O_2$ operator is the total potential energy due to electron-electron repulsions.
 
 $$
-\^O_{2} = \^V_{ee} = {1 \over r_{i,j}}
+\^O_{2} = \^V_{ee} =
+\sum_{i<j}{1 \over r_{i,j}}
 $$
 
 The total expectation value for the two-electron energies is
@@ -882,8 +903,8 @@ v(i,j) =
     {\color{blue} i}
     {\color{red} j}
     ||
-    {\color{blue} i}
     {\color{red} j}
+    {\color{blue} i}
     \right \rangle
 $$
 
@@ -893,6 +914,368 @@ $$
 E_2 =
     \sum_{i<j}
     v(i,j)
+$$
+
+$$
+E_2 =
+    \sum_{i<j}
+    \left \langle
+    {\color{blue} i}
+    {\color{blue} i}
+    |
+    {\color{red} j}
+    {\color{red} j}
+    \right \rangle
+    -
+    \delta_{\sigma_i,\sigma_j}
+    \left \langle
+    {\color{blue} i}
+    {\color{red} j}
+    |
+    {\color{red} j}
+    {\color{blue} i}
+    \right \rangle
+$$
+
+$$
+\^J_{\color{red} j} \;{\color{blue} \chi_i} ({\color{blue} x_i}) = {\color{blue} \chi_i}({\color{blue} x_i})
+\int
+  d{\color{red} x_j} \;
+  {|{\color{red} \chi_j}({\color{red} x_j})|^2 \over r_{i,j}}
+$$
+
+$$
+\^K_{\color{red} j}({\color{blue} x_i}) \; {\color{blue} \chi_i}({\color{blue} x_i}) =
+{\color{red} \chi_j}({\color{blue} x_i})
+\int
+  d{\color{red} x_j} \;
+  {{\color{red} \chi_j}({\color{red} x_j})^* \;  
+  {\color{blue} \chi_i}({\color{red} x_j}) \over r_{i,j}}
+$$
+
+$$
+\^O_{2} =
+\sum_{{\color{blue} i}=1}^N
+\sum_{{\color{red} j}=1}^{N/2}
+\left[
+2 \; \^J_{\color{red} j} - \^K_{\color{red} j}
+\right]
+$$
+
+
+----------------------
+
+$$
+\^H \, \Psi(x) = E \, \Psi(x)
+$$
+
+$$
+\underbrace{
+\left[
+    \underbrace{- {\hbar^2 \over 2 m} \nabla^2_x}_{\^T}
+    \quad
+    \underbrace{+ V(x)}_{\^V}
+\right]}_{\^H}
+\Psi(x) = E \, \Psi(x)
+$$
+
+
+
+$$
+\^H =
+    \underbrace{- {\hbar^2 \over 2 m_e} \nabla^2_e}_{\^T_e}
+    \quad
+    \underbrace{- {\hbar^2 \over 2 m_p} \nabla^2_p}_{\^T_p}
+    \quad
+    \underbrace{-
+      {1 \over 4 \pi \epsilon_0}
+      {e^2 \over r_{e,p}}}_{\^V_{pe}}
+$$
+
+$$
+\^H =
+    \underbrace{- {\hbar^2 \over 2 m_e} \nabla^2_e}_{\^T_e}
+    \quad
+    \underbrace{- {\hbar^2 \over 2 m_p} \nabla^2_p}_{\^T_p}
+    \quad
+    \underbrace{-
+      {1 \over 4 \pi \epsilon_0}
+      {e^2 \over r_{e,p}}}_{\^V_{pe}}
+$$
+
+$$
+\^H =
+    \underbrace{- \sum_{i=1}^{N_e}{\hbar^2 \over 2 m_e} \nabla^2_i}_{\^T_e}
+    \quad
+    \underbrace{- \sum_{i=1}^{N_p}{\hbar^2 \over 2 m_p} \nabla^2_A}_{\^T_p}
+    \quad
+    \underbrace{+ \sum_{i=1}^{N_p} \sum_{j=i+1}^{N_p}
+      {1 \over 4 \pi \epsilon_0}
+      {e^2 \over r_{i,j}}}_{\^V_{pp}}
+    \quad
+    \underbrace{- \sum_{i=1}^{N_p} \sum_{j=i}^{N_e}
+      {1 \over 4 \pi \epsilon_0}
+      {e^2 \over r_{i,j}}}_{\^V_{pe}}
+    \quad
+    \underbrace{+ \sum_{i=1}^{N_e} \sum_{j=i+1}^{N_e}
+      {1 \over 4 \pi \epsilon_0}
+      {e^2 \over r_{i,j}}}_{\^V_{ee}}
+$$
+
+$$
+\^H =
+    \underbrace{- \sum_{i=1}^N{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
+    \underbrace{- \sum_{A=1}^M{1 \over 2 m_A} \nabla^2_A}_{\^T_N}
+    \quad
+    \underbrace{+ \sum_{A=1}^M \sum_{B=A+1}^M
+    {Z_A Z_B \over r_{A,B}}}_{\^V_{NN}}
+    \quad
+    \underbrace{- \sum_{A=1}^M \sum_{i=1}^N
+    {Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
+    \underbrace{+ \sum_{i=1}^N \sum_{j=i+1}^N
+    {1 \over r_{i,j}}}_{\^V_{ee}}
+$$
+
+$$
+\^H =
+    \underbrace{- \sum_{i}{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
+    \underbrace{- \sum_{A}{1 \over 2 m_A} \nabla^2_A}_{\^T_N}
+    \quad
+    \underbrace{+ \sum_{A<B}{Z_A Z_B \over r_{A,B}}}_{\^V_{NN}}
+    \quad
+    \underbrace{- \sum_{iA}{Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
+    \underbrace{+ \sum_{i<j}{1 \over r_{i,j}}}_{\^V_{ee}}
+$$
+
+$$
+\^H_{elec} |\psi_{elec}\rangle = E_{elec} |\psi_{elec}\rangle
+$$
+
+$$
+\^H_{elec} =
+    \underbrace{- \sum_{i}{1 \over 2} \nabla^2_i}_{\^T_e}
+    \quad
+    \underbrace{- \sum_{iA}{Z_A \over r_{A,i}}}_{\^V_{Ne}}
+    \quad
+    \underbrace{+ \sum_{i<j}{1 \over r_{i,j}}}_{\^V_{ee}}
+$$
+
+$$
+\^f_{\color{blue} i}({\color{blue} x_i}) =
+\underbrace{\^h_{\color{blue} i}}_{\text{core}}
++
+\sum_{{\color{red} j}=1}^{N/2}
+\left[
+2
+\underbrace{
+  \^J_{\color{red} j} 
+}_{\text{coulomb}} - \underbrace{
+  \^K_{\color{red} j}({\color{blue} x_i})
+}_{\text{exchange}}
+\right]
+$$
+
+$$
+\chi(\vec{x_i}) =
+\chi(\vec{r_i}, \omega) =
+    \left\{
+        \begin{array}{l}
+            \phi(\vec{r_i})
+            \alpha(\omega)
+            \\
+            \phi(\vec{r_i})
+            \beta(\omega)
+        \end{array}
+    \right.
+$$
+
+$$
+\^f_{\color{blue} i}({\color{blue} x_i}) \chi_{\color{blue} i}({\color{blue} x_i}) = \mathcal{E}_{\color{blue} i} \chi_{\color{blue} i}({\color{blue} x_i})
+$$
+
+
+$$
+E_0 =
+\sum_{{\color{blue} i}=1}^{N/2}
+\left[
+2
+\underbrace{
+    \langle {\color{blue} \chi_i} | \^h_{\color{blue} i} | {\color{blue} \chi_i} \rangle
+}_{\text{core}} + \sum_{{\color{red} j}=1}^{N/2}
+\left(
+2
+\underbrace{
+    \langle {\color{blue} \chi_i} | 
+      \^J_{\color{red} j} 
+    | {\color{blue} \chi_i} \rangle
+}_{\text{coulomb}} - \underbrace{
+    \langle {\color{blue} \chi_i} |
+      \^K_{\color{red} j}({\color{blue} x_i}, {\color{red} x_j})
+    | {\color{blue} \chi_i} \rangle
+}_{\text{exchange}}
+\right)
+\right]
+$$
+
+$$
+\underbrace{
+E_0[\rho_0(\vec{r})]
+}_\text{Ground-state Energy} = 
+\underbrace{
+F[\rho_0(\vec{r})]
+}_\text{Density Functional}
+$$
+
+$$
+F[\rho(\vec{r})] = 
+\underbrace{
+E_\text{K}[\rho(\vec{r})]
+}_{\substack{\text{Non-interacting} \\ \text{Kinetic Energy}}} + 
+\underbrace{
+E_\text{H}[\rho(\vec{r})]
+}_{\substack{\text{Hartree/Coulomb} \\ \text{Energy}}} + 
+\underbrace{
+E_\text{XC}[\rho(\vec{r})]
+}_{\substack{\text{Exchange-Correlation} \\ \text{Energy}}}
+$$
+
+$$
+E_v[\rho(\vec{r})] = 
+F[\rho(\vec{r})] +
+\underbrace{
+\int v(\vec{r}) \rho(\vec{r}) \, d\vec{r}
+}_\text{External Potential}
+$$
+
+$$
+\left(
+\underbrace{-{1 \over 2} \nabla^2_i}_{T} +
+\underbrace{V_{\text{eff}_i}(\vec{r})}_{V}
+\right) \psi_i(\vec{r}) = \varepsilon_i \, \psi_i(\vec{r})
+$$
+
+$$
+V_{\text{eff}_i}(\vec{r}) = 
+\underbrace{- \sum_{A=1}^M{Z_A \over r_{i,A}}
+}_{\substack{\text{Nuclei/Electron} 
+\\ \text{Effective}
+\\ \text{Attraction}
+}}
++
+\underbrace{
+\int {\rho(\vec{r'}) \over r_{i,r'}} \, d\vec{r'}
+}_{\substack{\text{Electron/Electron-Density}
+\\ \text{Effective}
+\\ \text{Repulsion}}}
++
+\underbrace{
+V_{XC}[\rho](\vec{r})
+}_{\substack{\text{Exchange-Correlation} \\ \text{Repulsion}}}
+$$
+
+$$
+V_{XC}[\rho] = {\delta
+\over \delta \rho(\vec{r})} E_{XC}[\rho](\vec{r})
+$$
+
+$$
+E_{XC}^{LDA}[\rho] = 
+\int \varepsilon_{XC}^{LDA}[\rho] \,
+\rho(\vec{r}) \,
+d\vec{r}
+$$
+
+$$
+\varepsilon_{XC}^{LDA}[\rho] = \varepsilon_{X}^{LDA}[\rho] + \varepsilon_{C}^{LDA}[\rho]
+$$
+
+$$
+\varepsilon_{X}^{LDA}[\rho] = 
+-{3 \over 4}
+\left({3 \over \pi} \right)^{1/3}
+\int \rho(\vec{r})^{4/3} \, d\vec{r}
+$$
+
+$$
+\varepsilon_{C}^{LDA}[\rho] = 
+$$
+
+$$
+\varepsilon_{C_{high}}^{LDA}[r_s] = A \, ln(r_s)  + B + r_s \, (C \, ln(r_s)  + D )
+$$
+
+$$
+r_s = { r_0 \over a_0 }
+$$
+
+$$
+{1 \over \rho} = {4 \over 3} \pi r_s^3 
+$$
+
+$$
+\varepsilon_{C_{min}}^{LDA}[r_s] = {1 \over 2}
+  \left ( 
+  {g_0 \over r_s} +
+  {g_1 \over r_s^{3 \over 2}} +
+  ...
+  \right )
+$$
+
+
+$$
+E_{XC}^{LSDA}[\rho_\alpha, \rho_\beta] = E_{X}^{LSDA}[\rho_\alpha, \rho_\beta] + E_{C}^{LSDA}[\rho_\alpha, \rho_\beta]
+$$
+
+$$
+E_{XC}^{LSDA}[\rho_\alpha, \rho_\beta] = 
+\int \varepsilon_{XC}^{LSDA}[\rho_\alpha, \rho_\beta] \,
+\rho(\vec{r}) \,
+d\vec{r}
+$$
+
+$$
+\rho = \rho_\alpha + \rho_\beta
+$$
+
+$$
+\varepsilon_{XC}^{LSDA}[\rho_\alpha, \rho_\beta] = \varepsilon_{X}^{LSDA}[\rho_\alpha, \rho_\beta] + \varepsilon_{C}^{LSDA}[\rho_\alpha, \rho_\beta]
+$$
+
+$$
+E_{X}^{LSDA}[\rho_\alpha, \rho_\beta] = {1 \over 2}
+\left( E_{X}^{LDA}[2 \rho_\alpha] + E_{X}^{LDA}[2 \rho_\beta] \right)
+$$
+
+$$
+\zeta(\vec{r}) = {{\rho_\alpha(\vec{r}) - \rho_\beta(\vec{r})}
+\over {\rho_\alpha(\vec{r}) + \rho_\beta(\vec{r})}}
+$$
+
+$$
+\zeta =
+    \left\{
+        \begin{array}{l}
+            0 \text{ , } \alpha = \beta \text{ , diamagnetic}
+            \\
+            \pm 1 \text{ , } \alpha \neq \beta \text{ , ferromagnetic}
+        \end{array}
+    \right.
+$$
+
+$$
+\varepsilon_{C}^{LSDA}[\rho, \zeta] = 
+$$
+
+$$
+E_{XC}^{GGA}[\rho_\alpha, \rho_\beta, \nabla\rho_\alpha, \nabla\rho_\beta] = E_{X}^{LSDA}[\rho_\alpha, \rho_\beta] + E_{C}^{GGA}[\rho_\alpha, \rho_\beta, \nabla\rho_\alpha, \nabla\rho_\beta]
+$$
+
+$$
+E_{XC}^\text{Meta-GGA}[\rho_\alpha, \rho_\beta, \nabla\rho_\alpha, \nabla\rho_\beta, \nabla^2\rho_\alpha, \nabla^2\rho_\beta] = E_{X}^{LSDA}[\rho_\alpha, \rho_\beta] + E_{C}^\text{Meta-GGA}[\rho_\alpha, \rho_\beta, \nabla\rho_\alpha, \nabla\rho_\beta, \nabla^2\rho_\alpha, \nabla^2\rho_\beta]
 $$
 
 ## References
